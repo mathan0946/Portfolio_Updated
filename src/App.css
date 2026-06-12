@@ -1,0 +1,40 @@
+main { position: relative; z-index: 2; }
+
+section { position: relative; }
+
+/* Generous section rhythm — whitespace is the design */
+.section-pad {
+  padding-block: clamp(5rem, 12vw, 11rem);
+}
+
+/* Shared section header treatment */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+.section-head h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 5.5vw, 3.8rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+}
+.section-head h2 em {
+  font-style: italic;
+  color: var(--clay);
+}
+.section-head .lede {
+  color: var(--ink-soft);
+  max-width: 46ch;
+  font-size: 1.05rem;
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  border: none;
+  margin: 0;
+}

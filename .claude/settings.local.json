@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(curl -s http://localhost:5173/src/main.jsx -o /dev/null -w \"main.jsx: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/src/App.jsx -o /dev/null -w \"App.jsx: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/favicon.svg -o /dev/null -w \"favicon: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/portrait.png -o /dev/null -w \"portrait: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/src/components/Archive.jsx -o /dev/null -w \"Archive.jsx: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/src/components/Magnetic.jsx -o /dev/null -w \"Magnetic.jsx: %{http_code}\\\\n\")"
+    ]
+  }
+}

@@ -33,7 +33,16 @@
   height: 58px;
   padding: 4px 0 6px;
   transition: background 0.4s var(--ease);
-  clip-path: polygon(38% 0, 62% 0, 57% 100%, 43% 100%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 3px,
+    62% 3px,
+    57% 100%,
+    43% 100%,
+    38% 3px,
+    0 3px
+  );
 }
 .nav.is-scrolled .nav__top { background: #ffffff; }
 

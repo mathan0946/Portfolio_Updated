@@ -97,7 +97,6 @@ export default function PhoneIntro() {
           <span className="phone-intro__side-top">
             <span className="phone-intro__side-dot" /> EST · 2026
           </span>
-          <span className="phone-intro__side-mega">PORTFOLIO</span>
           <span className="phone-intro__side-foot">
             <span>11.0168° N</span>
             <span>76.9558° E</span>
@@ -114,7 +113,6 @@ export default function PhoneIntro() {
             v01 / DRAFT
             <span className="phone-intro__side-live"><i /> LIVE</span>
           </span>
-          <span className="phone-intro__side-mega phone-intro__side-mega--end">AI / ML</span>
           <span className="phone-intro__side-foot phone-intro__side-foot--end">
             <span>BUILDING — SINCE</span>
             <span>DAY ONE</span>

@@ -130,20 +130,40 @@ body.is-booting .scroll-progress { display: none !important; }
 }
 .boot__hex-strong { color: rgba(255, 255, 255, 0.85); }
 
-/* ---------------- The big counter --------------------------------- */
+/* ---------------- 3D model centerpiece --------------------------- */
+.boot__model {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(320px, 38vw, 620px);
+  height: clamp(380px, 64vh, 720px);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: auto;
+}
+.boot__model canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ---------------- The big counter — pushed to the side ----------- */
 .boot__center {
   position: absolute;
-  inset: 0;
+  right: clamp(2rem, 5vw, 5rem);
+  top: 50%;
+  transform: translateY(-50%);
   display: grid;
   place-items: center;
-  z-index: 2;
+  z-index: 3;
+  pointer-events: none;
 }
 .boot__count {
   position: relative;
   font-family: var(--display, 'Times New Roman', serif);
   font-style: italic;
   font-weight: 200;
-  font-size: clamp(6rem, 14vw, 14rem);
+  font-size: clamp(4rem, 9vw, 9rem);
   line-height: 0.82;
   letter-spacing: -0.05em;
   user-select: none;
@@ -260,6 +280,34 @@ body.is-booting .scroll-progress { display: none !important; }
   100% { opacity: 0; }
 }
 
+/* ---------------- Click to enter (minimal) ----------------------- */
+.boot__enter {
+  position: absolute;
+  right: clamp(2rem, 5vw, 5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  background: none;
+  border: 0;
+  padding: 0.2rem 0;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.boot__enter:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+.boot__enter:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 6px;
+}
+
 /* ---------------- Reduced motion --------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .boot__noise, .boot__scan, .boot__hex, .boot__dot, .boot__hud-strong { animation: none; }
@@ -271,5 +319,8 @@ body.is-booting .scroll-progress { display: none !important; }
   .boot__hex { display: none; }
   .boot__lines { left: 1.1rem; bottom: 4.2rem; font-size: 0.7rem; }
   .boot__bar { left: 1.1rem; right: 1.1rem; bottom: 2.4rem; }
-  .boot__count { font-size: clamp(4.5rem, 22vw, 8rem); }
+  .boot__count { font-size: clamp(3.5rem, 16vw, 6rem); }
+  .boot__center { right: 1rem; }
+  .boot__model { width: 88vw; height: 50vh; }
+  .boot__enter { font-size: 0.66rem; right: 1rem; }
 }

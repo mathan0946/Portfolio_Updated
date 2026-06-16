@@ -1,5 +1,5 @@
 import { Suspense, useMemo, useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, OrbitControls } from '@react-three/drei'
 import { Box3, Vector3 } from 'three'
 import './Mathan3D.css'
@@ -8,9 +8,14 @@ const MODEL_URL = '/Mathan.glb'
 const TARGET_SIZE = 0.7   // smaller = model occupies less of the frame
 const Y_LIFT = 0.1        // positive = move model up in the canvas
 
-function Model({ idleSpin = 0.25 }) {
+function Model({ idleSpin = 0.12 }) {
   const { scene } = useGLTF(MODEL_URL)
   const ref = useRef()
+
+  // Slow idle rotation — OrbitControls override when the user drags.
+  useFrame((_, dt) => {
+    if (ref.current) ref.current.rotation.y += dt * idleSpin
+  })
 
   const fit = useMemo(() => {
     const box = new Box3().setFromObject(scene)

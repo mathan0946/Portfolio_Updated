@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Mathan3D from './Mathan3D'
 import './BootSequence.css'
 
 const LINES = [
@@ -22,6 +23,7 @@ export default function BootSequence({ onComplete }) {
   const [visibleLines, setVisibleLines] = useState(0)
   const [glitch, setGlitch] = useState(false)
   const [open, setOpen] = useState(true)
+  const [ready, setReady] = useState(false)
   const startRef = useRef(0)
 
   // Freeze scroll + hide chrome (nav/footer) while booting
@@ -54,13 +56,29 @@ export default function BootSequence({ onComplete }) {
         setCount(100)
         setVisibleLines(LINES.length)
         setGlitch(true)
-        // Glitch, then collapse into the phone position
-        setTimeout(() => setOpen(false), 520)
+        // Glitch settles, then expose the click-to-enter affordance.
+        setTimeout(() => {
+          setGlitch(false)
+          setReady(true)
+        }, 520)
       }
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [])
+
+  // Press Enter / Space to dismiss as an alternative to clicking.
+  useEffect(() => {
+    if (!ready) return
+    const onKey = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        setOpen(false)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [ready])
 
   const onExitComplete = () => onComplete?.()
 
@@ -84,39 +102,17 @@ export default function BootSequence({ onComplete }) {
           <span className="boot__scan" aria-hidden />
           <span className="boot__vignette" aria-hidden />
 
-          {/* HUD corners */}
-          <div className="boot__hud boot__hud--tl">
-            <span className="boot__dot" /> MATHANA.OS · v01
-          </div>
-          <div className="boot__hud boot__hud--tr">
-            SEQ · 0001<br />
-            <span className="boot__hud-dim">PORTFOLIO / 2026</span>
-          </div>
-          <div className="boot__hud boot__hud--bl">
-            <span className="boot__hud-dim">SIGNAL</span>
-            <span className="boot__signal"><i /><i /><i /><i /></span>
-          </div>
-          <div className="boot__hud boot__hud--br">
-            BOOT-SEQ <span className="boot__hud-strong">ACTIVE</span>
+          {/* 3D hologram of Mathan — sits at the heart of the boot screen */}
+          <div className="boot__model" aria-hidden>
+            <Mathan3D />
           </div>
 
-          {/* Hex side stream */}
-          <motion.div
-            className="boot__hex"
-            initial={{ y: 0 }}
-            animate={{ y: '-50%' }}
-            transition={{ duration: 5, ease: 'linear', repeat: Infinity }}
-          >
-            {[...HEX, ...HEX].map((h, i) => (
-              <span key={i} className={i % 6 === 0 ? 'boot__hex-strong' : ''}>{h}</span>
-            ))}
-          </motion.div>
-
-          {/* Massive counter — outline that fills from bottom as load progresses */}
+          {/* Counter — moves to the side so it doesn't overlap the model */}
           <motion.div
             className="boot__center"
             exit={{ scale: 0.1, opacity: 0, filter: 'blur(8px)' }}
-            transition={{ duration: 0.55, ease: [0.7, 0, 0.3, 1] }}
+            animate={ready ? { opacity: 0, scale: 0.85 } : { opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
           >
             <div className="boot__count" data-text={display}>
               <span className="boot__count-outline">{display}</span>
@@ -130,32 +126,30 @@ export default function BootSequence({ onComplete }) {
             </div>
           </motion.div>
 
-          {/* Type-on diagnostic lines */}
-          <div className="boot__lines">
-            {LINES.slice(0, visibleLines).map((l, i) => {
-              const isLast = i === LINES.length - 1
-              return (
-                <motion.div
-                  key={i}
-                  className="boot__line"
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {l}
-                  {isLast && i + 1 === visibleLines && (
-                    <span className="boot__caret" />
-                  )}
-                </motion.div>
-              )
-            })}
-          </div>
+          {/* Click-to-enter — appears once boot completes */}
+          <AnimatePresence>
+            {ready && (
+              <motion.button
+                key="enter"
+                type="button"
+                className="boot__enter"
+                onClick={() => setOpen(false)}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              >
+                click to enter
+              </motion.button>
+            )}
+          </AnimatePresence>
 
-          {/* Bottom progress rail */}
-          <div className="boot__bar">
-            <div className="boot__bar-fill" style={{ width: `${count}%` }} />
-            <span className="boot__bar-num">{display}</span>
-          </div>
+          {/* Minimal progress rail — only while loading */}
+          {!ready && (
+            <div className="boot__bar">
+              <div className="boot__bar-fill" style={{ width: `${count}%` }} />
+            </div>
+          )}
 
           {/* End-of-boot flash */}
           {glitch && <span className="boot__flash" aria-hidden />}

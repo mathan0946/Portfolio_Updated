@@ -132,12 +132,7 @@ export default function PhoneIntro() {
     const first = framesRef.current[0]
     if (!first) return
 
-    let autoplayIdx = 0
-    let scrollIdx = 0
     let displayedIdx = -1
-    let rafId = 0
-    const AUTOPLAY_MS = 6000 // slow auto-preview through the full sequence
-    const startT = performance.now()
 
     const draw = (idx) => {
       const img = framesRef.current[idx]
@@ -151,10 +146,7 @@ export default function PhoneIntro() {
       ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh)
     }
 
-    // Show the further-along frame between scroll and autoplay so scroll
-    // never rewinds the preview, and once autoplay finishes scroll takes over.
-    const render = () => {
-      const idx = Math.max(autoplayIdx, scrollIdx)
+    const render = (idx) => {
       if (idx !== displayedIdx) {
         displayedIdx = idx
         draw(idx)
@@ -168,26 +160,18 @@ export default function PhoneIntro() {
       canvas.height = Math.round(rect.height * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       displayedIdx = -1
-      render()
-    }
-
-    const tick = (t) => {
-      const prog = Math.min(1, (t - startT) / AUTOPLAY_MS)
-      autoplayIdx = Math.floor(prog * (FRAME_COUNT - 1))
-      render()
-      if (prog < 1) rafId = requestAnimationFrame(tick)
+      render(0)
     }
 
     resize()
-    rafId = requestAnimationFrame(tick)
+
     const unsub = frameProgress.on('change', (v) => {
-      scrollIdx = Math.min(FRAME_COUNT - 1, Math.max(0, Math.floor(v * (FRAME_COUNT - 1))))
-      render()
+      const idx = Math.min(FRAME_COUNT - 1, Math.max(0, Math.floor(v * (FRAME_COUNT - 1))))
+      render(idx)
     })
     window.addEventListener('resize', resize)
     return () => {
       unsub()
-      cancelAnimationFrame(rafId)
       window.removeEventListener('resize', resize)
     }
   }, [framesReady, frameProgress])

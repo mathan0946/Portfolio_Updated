@@ -83,6 +83,13 @@
 }
 
 @media (max-width: 560px) {
-  .layer__head { gap: 0.8rem; }
+  .layer { padding: 1.1rem 1.1rem; }
+  .layer__head { gap: 0.8rem; grid-template-columns: auto 1fr auto; }
   .layer__blurb { display: none; }
+  .layer__num { font-size: 0.7rem; padding: 0.25rem 0.45rem; }
+  .layer__role { font-size: 1.05rem; }
+  .layer__count { font-size: 1.2rem; }
+  .skill-tag { font-size: 0.8rem; padding: 0.4rem 0.75rem; }
+  .layer__items-inner { gap: 0.45rem; padding-top: 1rem; margin-top: 1rem; }
+  .layer:hover { transform: none; }
 }

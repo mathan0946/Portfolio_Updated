@@ -101,23 +101,21 @@ export default function BootSequence({ onComplete }) {
           <span className="boot__scan" aria-hidden />
           <span className="boot__vignette" aria-hidden />
 
-          {/* Minimal animated centerpiece — concentric rings + crosshair */}
-          <div className="boot__orb" aria-hidden>
-            <span className="boot__orb-ring boot__orb-ring--1" />
-            <span className="boot__orb-ring boot__orb-ring--2" />
-            <span className="boot__orb-ring boot__orb-ring--3" />
-            <span className="boot__orb-core" />
-            <span className="boot__orb-cross boot__orb-cross--h" />
-            <span className="boot__orb-cross boot__orb-cross--v" />
-            <span className="boot__orb-arc boot__orb-arc--1" />
-            <span className="boot__orb-arc boot__orb-arc--2" />
+          {/* Minimal animated centerpiece — type-on terminal lines */}
+          <div className="boot__terminal" aria-hidden>
+            {LINES.slice(0, visibleLines).map((line, i) => (
+              <div key={i} className="boot__terminal-line">
+                {line}
+                {i === visibleLines - 1 && !ready && <span className="boot__caret" />}
+              </div>
+            ))}
           </div>
 
-          {/* Counter — moves to the side so it doesn't overlap the model */}
+          {/* Counter — bottom-left corner */}
           <motion.div
             className="boot__center"
-            exit={{ scale: 0.1, opacity: 0, filter: 'blur(8px)' }}
-            animate={ready ? { opacity: 0, scale: 0.85 } : { opacity: 1, scale: 1 }}
+            exit={{ scale: 0.6, opacity: 0, filter: 'blur(8px)' }}
+            animate={ready ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
           >
             <div className="boot__count" data-text={display}>

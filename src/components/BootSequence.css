@@ -130,110 +130,40 @@ body.is-booting .scroll-progress { display: none !important; }
 }
 .boot__hex-strong { color: rgba(255, 255, 255, 0.85); }
 
-/* ---------------- Minimal centerpiece — rings + crosshair --------- */
-.boot__orb {
+/* ---------------- Minimal centerpiece — typed terminal lines ------ */
+.boot__terminal {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(220px, 28vw, 380px);
-  height: clamp(220px, 28vw, 380px);
   transform: translate(-50%, -50%);
   z-index: 2;
   pointer-events: none;
-}
-.boot__orb-ring,
-.boot__orb-arc,
-.boot__orb-core,
-.boot__orb-cross {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-}
-.boot__orb-ring {
+  font-family: var(--mono, ui-monospace, 'JetBrains Mono', monospace);
+  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: left;
+  max-width: min(560px, 80vw);
   width: 100%;
-  height: 100%;
-  margin: -50% 0 0 -50%;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  animation: bootOrbPulse 3.4s ease-in-out infinite;
+  white-space: pre;
 }
-.boot__orb-ring--1 { transform: translate(-50%, -50%) scale(1); }
-.boot__orb-ring--2 {
-  width: 72%; height: 72%;
-  margin: -36% 0 0 -36%;
-  border-color: rgba(255, 255, 255, 0.5);
-  animation-delay: 0.4s;
-  animation-duration: 3s;
+.boot__terminal-line {
+  opacity: 0;
+  animation: bootLineIn 0.35s ease-out forwards;
 }
-.boot__orb-ring--3 {
-  width: 44%; height: 44%;
-  margin: -22% 0 0 -22%;
-  border-color: rgba(255, 255, 255, 0.7);
-  animation-delay: 0.8s;
-  animation-duration: 2.6s;
-}
-@keyframes bootOrbPulse {
-  0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); }
-  50%      { opacity: 0.95; transform: translate(-50%, -50%) scale(1.04); }
+@keyframes bootLineIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Solid core dot */
-.boot__orb-core {
-  width: 10px; height: 10px;
-  margin: -5px 0 0 -5px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 28px rgba(255, 255, 255, 0.85);
-  animation: bootOrbCore 1.6s ease-in-out infinite;
-}
-@keyframes bootOrbCore {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
-  50%      { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
-}
-
-/* Crosshair */
-.boot__orb-cross {
-  background: rgba(255, 255, 255, 0.25);
-  pointer-events: none;
-}
-.boot__orb-cross--h {
-  width: 100%; height: 1px;
-  margin-left: -50%;
-}
-.boot__orb-cross--v {
-  width: 1px; height: 100%;
-  margin-top: -50%;
-}
-
-/* Rotating arc accents */
-.boot__orb-arc {
-  width: 86%; height: 86%;
-  margin: -43% 0 0 -43%;
-  border-radius: 50%;
-  border: 1px dashed rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4) transparent transparent transparent;
-  animation: bootOrbSpin 9s linear infinite;
-}
-.boot__orb-arc--2 {
-  width: 58%; height: 58%;
-  margin: -29% 0 0 -29%;
-  border-color: transparent transparent rgba(255, 255, 255, 0.55) transparent;
-  animation-direction: reverse;
-  animation-duration: 6s;
-}
-@keyframes bootOrbSpin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* ---------------- The big counter — pushed to the side ----------- */
+/* ---------------- The big counter — bottom-left corner ----------- */
 .boot__center {
   position: absolute;
-  right: clamp(2rem, 5vw, 5rem);
-  top: 50%;
-  transform: translateY(-50%);
+  left: clamp(1.4rem, 4vw, 3.5rem);
+  bottom: clamp(1.4rem, 4vw, 3rem);
   display: grid;
-  place-items: center;
+  place-items: start;
   z-index: 3;
   pointer-events: none;
 }
@@ -242,7 +172,7 @@ body.is-booting .scroll-progress { display: none !important; }
   font-family: var(--display, 'Times New Roman', serif);
   font-style: italic;
   font-weight: 200;
-  font-size: clamp(4rem, 9vw, 9rem);
+  font-size: clamp(3.5rem, 8vw, 8rem);
   line-height: 0.82;
   letter-spacing: -0.05em;
   user-select: none;
@@ -301,14 +231,14 @@ body.is-booting .scroll-progress { display: none !important; }
   51%, 100% { opacity: 0; }
 }
 
-/* ---------------- Bottom progress rail ---------------------------- */
+/* ---------------- Top progress rail ------------------------------- */
 .boot__bar {
   position: absolute;
-  left: 1.8rem; right: 1.8rem;
-  bottom: 3.2rem;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  z-index: 2;
+  left: 0; right: 0;
+  top: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 4;
 }
 .boot__bar-fill {
   height: 100%;
@@ -362,9 +292,8 @@ body.is-booting .scroll-progress { display: none !important; }
 /* ---------------- Click to enter (minimal) ----------------------- */
 .boot__enter {
   position: absolute;
-  right: clamp(2rem, 5vw, 5rem);
-  top: 50%;
-  transform: translateY(-50%);
+  right: clamp(1.4rem, 4vw, 3.5rem);
+  bottom: clamp(1.4rem, 4vw, 3rem);
   z-index: 6;
   background: none;
   border: 0;
@@ -390,17 +319,21 @@ body.is-booting .scroll-progress { display: none !important; }
 /* ---------------- Reduced motion --------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .boot__noise, .boot__scan, .boot__hex, .boot__dot, .boot__hud-strong,
-  .boot__orb-ring, .boot__orb-arc, .boot__orb-core { animation: none; }
+  .boot__terminal-line { animation: none; opacity: 1; }
 }
 
 /* ---------------- Mobile ---------------------------------------- */
 @media (max-width: 720px) {
-  .boot__hud { padding: 1rem 1.1rem; font-size: 0.58rem; letter-spacing: 0.18em; }
+  .boot__hud { padding: 0.9rem 1rem; font-size: 0.55rem; letter-spacing: 0.16em; }
   .boot__hex { display: none; }
-  .boot__lines { left: 1.1rem; bottom: 4.2rem; font-size: 0.7rem; }
-  .boot__bar { left: 1.1rem; right: 1.1rem; bottom: 2.4rem; }
-  .boot__count { font-size: clamp(3.5rem, 16vw, 6rem); }
-  .boot__center { right: 1rem; }
-  .boot__orb { width: 70vw; height: 70vw; max-width: 320px; max-height: 320px; }
-  .boot__enter { font-size: 0.66rem; right: 1rem; }
+  .boot__terminal {
+    font-size: 0.7rem;
+    line-height: 1.7;
+    max-width: 86vw;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .boot__count { font-size: clamp(3rem, 16vw, 5rem); }
+  .boot__center { left: 1rem; bottom: 1.2rem; }
+  .boot__enter { font-size: 0.62rem; right: 1rem; bottom: 1.4rem; letter-spacing: 0.24em; }
 }

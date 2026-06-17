@@ -13,7 +13,7 @@ section { position: relative; }
 .section-head h2 {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-size: clamp(2rem, 7vw, 4rem);
   line-height: 1.04;
   letter-spacing: -0.025em;
   max-width: 18ch;
@@ -23,6 +23,12 @@ section { position: relative; }
   color: var(--ink-soft);
   max-width: 48ch;
   font-size: 1.08rem;
+}
+
+@media (max-width: 540px) {
+  .section-pad { padding-block: clamp(3.5rem, 14vw, 6rem); }
+  .section-head { gap: 0.9rem; margin-bottom: 2rem; }
+  .section-head .lede { font-size: 0.98rem; }
 }
 
 .divider { height: 1px; background: var(--line); border: none; margin: 0; }

@@ -133,3 +133,14 @@
   .journey__grid { grid-template-columns: 1fr; gap: 3rem; }
   .journey__aside { padding-top: 0; }
 }
+@media (max-width: 540px) {
+  .timeline__item { grid-template-columns: 32px 1fr; padding-bottom: 2rem; }
+  .timeline__title { font-size: 1.15rem; }
+  .timeline__place { font-size: 0.88rem; }
+  .timeline__detail { font-size: 0.72rem; padding: 0.2rem 0.55rem; }
+  .timeline__top { gap: 0.5rem; flex-wrap: wrap; }
+  .note { padding: 1.3rem 1.1rem 1.2rem; border-radius: 14px; }
+  .note__headline { font-size: 1.25rem; }
+  .note__body { font-size: 0.9rem; }
+  .journey__aside { gap: 1.2rem; }
+}

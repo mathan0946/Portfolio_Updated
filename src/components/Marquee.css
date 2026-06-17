@@ -37,6 +37,11 @@
 @keyframes scrollX {
   to { transform: translateX(-50%); }
 }
+@media (max-width: 540px) {
+  .marquee { padding: clamp(2rem, 7vw, 3rem) 0; }
+  .marquee__track { gap: 1.4rem; animation-duration: 28s; }
+  .marquee__item { gap: 1.4rem; font-size: clamp(1.8rem, 8vw, 3rem); }
+}
 @media (prefers-reduced-motion: reduce) {
   .marquee__track { animation: none; }
 }

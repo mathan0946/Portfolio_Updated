@@ -146,8 +146,12 @@
 }
 
 @media (max-width: 720px) {
-  .kinetic__big { font-size: clamp(3rem, 16vw, 7rem); white-space: normal; }
-  .kinetic__hud-bar { width: 80px; }
+  .kinetic__big { font-size: clamp(2.6rem, 14vw, 6rem); white-space: normal; }
+  .kinetic__hud { top: 1.4rem; gap: 0.6rem; font-size: 0.6rem; letter-spacing: 0.18em; }
+  .kinetic__hud-bar { width: 70px; }
+  .kinetic__cue { bottom: 1.4rem; font-size: 0.6rem; letter-spacing: 0.18em; }
+  .kinetic__sub { font-size: 0.72rem; letter-spacing: 0.12em; }
+  .kinetic__phrase { padding: 0 5vw; gap: 0.8rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

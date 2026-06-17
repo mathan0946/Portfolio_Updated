@@ -77,9 +77,19 @@ export default function Nav() {
             <span className="nav__brand-text">MATHAN</span>
             <span className="nav__brand-sub">AI / ML Engineer</span>
           </Link>
+
+          {/* Mobile-only burger — sits on the white top bar */}
+          <button
+            className="nav__menu"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Toggle menu"
+          >
+            <span className={`nav__burger ${open ? 'is-open' : ''}`} />
+          </button>
         </div>
 
-        {/* BOTTOM — link row sitting beneath the white header */}
+        {/* BOTTOM — link row sitting beneath the white header (desktop) */}
         <div className="nav__bottom">
           <nav className="nav__pill nav__pill--left" aria-label="Primary left">
             {LEFT.map((l, i) => renderLink(l, i, 0))}
@@ -108,15 +118,6 @@ export default function Nav() {
               </svg>
             </a>
           </nav>
-
-          <button
-            className="nav__menu"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label="Toggle menu"
-          >
-            <span className={`nav__burger ${open ? 'is-open' : ''}`} />
-          </button>
         </div>
       </motion.header>
 
